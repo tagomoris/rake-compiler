@@ -291,10 +291,6 @@ Java extension should be preferred.
             # we need the files from the staging directory
             p.package_files.clear
           end
-          rescue => e
-            p(here: "rescue exception from Gem::PackageTask.new", exception: e)
-            puts e.backtrace
-          end
 
           # copy other gem files to staging directory if added by the callback
           define_staging_file_tasks(spec.files, lib_path, stage_path, platf, ruby_ver)
@@ -319,6 +315,10 @@ Java extension should be preferred.
                 safe_ln(fn, f)
               end
             end
+          end
+          rescue => e
+            p(here: "rescue exception from Gem::PackageTask.new", exception: e)
+            puts e.backtrace
           end
         end
       end
