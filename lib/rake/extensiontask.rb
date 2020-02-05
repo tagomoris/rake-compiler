@@ -283,12 +283,17 @@ Java extension should be preferred.
           callback.call(spec) if callback
 
           # Generate a package for this gem
+          begin
           pkg = Gem::PackageTask.new(spec) do |p|
             p.need_zip = false
             p.need_tar = false
             # Do not copy any files per PackageTask, because
             # we need the files from the staging directory
             p.package_files.clear
+          end
+          rescue => e
+            p(here: "rescue exception from Gem::PackageTask.new", exception: e)
+            puts e.backtrace
           end
 
           # copy other gem files to staging directory if added by the callback
